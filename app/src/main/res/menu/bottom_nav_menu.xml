@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/usersFragment"
+        android:icon="@drawable/all_users"
+        android:title="@string/all_users"
+        app:showAsAction="never"  />
+
+    <item
+        android:id="@+id/favoritesFragment"
+        android:icon="@drawable/favorite"
+        android:title="@string/favorites"
+        app:showAsAction="never" />
+
+</menu>
