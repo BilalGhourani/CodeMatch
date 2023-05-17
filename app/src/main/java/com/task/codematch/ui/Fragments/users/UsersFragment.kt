@@ -47,7 +47,7 @@ class UsersFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
         }
 
-        viewModel
+        viewModel.getAllUsers();
 
         viewLifecycleOwner.lifecycleScope.launch {
 
