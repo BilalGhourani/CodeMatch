@@ -27,7 +27,7 @@ class UsersRepositoryImpl @Inject constructor(
 
             override suspend fun fetchFromLocal(): List<User> = usersDao.getUsers()
 
-            override suspend fun fetchFromRemote(): Response<List<User>> = userService.getAllUsers()
+            override suspend fun fetchFromRemote(): List<User> = userService.getAllUsers()
         }.asFlow()
     }
 

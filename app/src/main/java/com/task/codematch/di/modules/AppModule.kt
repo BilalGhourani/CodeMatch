@@ -3,6 +3,7 @@ package com.task.codematch.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.Gson
+import com.task.codematch.BuildConfig
 import com.task.codematch.data.source.local.AppDatabase
 import com.task.codematch.data.source.remote.UserService
 import com.task.codematch.utils.Constants
@@ -12,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -42,6 +44,9 @@ object AppModule {
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG) {
+            okHttpClient.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        }
         return okHttpClient
     }
 
@@ -52,6 +57,7 @@ object AppModule {
             .Builder()
             .client(client.build())
             .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(UserService::class.java)
 

@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.task.codematch.Adapters.UsersListAdapter
@@ -63,14 +61,15 @@ class UsersFragment : Fragment() {
                         } else {
                             binding.animNoUser.visibility = View.INVISIBLE
                             binding.tvNoUsers.visibility = View.INVISIBLE
+                            binding.rvUsers.visibility = View.VISIBLE
                             binding.rvUsers.layoutManager = LinearLayoutManager(context)
                             binding.rvUsers.adapter = data.data?.let {
-                                UsersListAdapter(it) { taskItemBinding, item ->
-                                    taskItemBinding.ivFavorite.setOnClickListener {
+                                UsersListAdapter(it) { UserListItemBinding, item ->
+                                    UserListItemBinding.ivFavorite.setOnClickListener {
                                         viewModel.markUserAsFavorite(item)
                                         requireContext().showSnackBar(
                                             rootView = binding.root,
-                                            message = "Deleted",
+                                            message = "done.",
                                         )
                                     }
                                 }

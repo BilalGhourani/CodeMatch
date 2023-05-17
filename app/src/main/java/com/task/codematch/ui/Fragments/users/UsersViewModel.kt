@@ -8,6 +8,7 @@ import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.data.source.repository.UsersRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,12 +18,12 @@ class UsersViewModel @Inject constructor(
     private val userRepository: UsersRepositoryImpl
 ) : ViewModel() {
 
-    private val _users = MutableLiveData<Resource<List<User>>>()
-    val users: LiveData<Resource<List<User>>> = _users
+    private val _users = MutableLiveData<Resource<List<User>>?>()
+    val users: MutableLiveData<Resource<List<User>>?> = _users
 
 
     fun getAllUsers() {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.Main){
             userRepository.getAllUsers()
                 .map { resource -> Resource.Success(resource) }
                 .collect { result -> _users.value = result.data }

@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     companion object{
-        var isAnimatedRecyclerView : Boolean = false
+        var isAnimatedRecyclerView : Boolean = true
     }
 
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        isAnimatedRecyclerView = true
+//        isAnimatedRecyclerView = true
 
         val navView: BottomNavigationView = binding.navView
 

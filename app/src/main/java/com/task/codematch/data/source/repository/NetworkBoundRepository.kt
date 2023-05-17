@@ -11,30 +11,26 @@ import retrofit2.Response
  * [RESULT] represents the type for database.
  * [REQUEST] represents the type for network.
  */
-@ExperimentalCoroutinesApi
 abstract class NetworkBoundRepository<RESULT, REQUEST> {
 
     fun asFlow() = flow<Resource<RESULT>> {
 
+        emit(Resource.Loading())
+
         // Emit Database content first
-        emit(Resource.Success(fetchFromLocal()))
+        var localUsers = fetchFromLocal()
+        emit(Resource.Success(localUsers))
 
         // Fetch latest posts from remote
-        val apiResponse = fetchFromRemote()
-
-        // Parse body
-        val remotePosts = apiResponse.body()
+        val remotePosts = fetchFromRemote()
 
         // Check for response validation
-        if (apiResponse.isSuccessful && remotePosts != null) {
-            // Save posts into the persistence storage
+        if (remotePosts != null) {
             saveRemoteData(remotePosts)
         } else {
-            // Something went wrong! Emit Error state.
-            emit(Resource.Failed(apiResponse.message()))
+            emit(Resource.Failed("Something went wrong!"))
         }
 
-        // Retrieve posts from persistence storage and emit
         emit(Resource.Success(fetchFromLocal()))
     }.catch { e ->
         e.printStackTrace()
@@ -54,5 +50,5 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     /**
      * Fetches [Response] from the remote end point.
      */
-    protected abstract suspend fun fetchFromRemote(): Response<REQUEST>
+    protected abstract suspend fun fetchFromRemote(): REQUEST
 }

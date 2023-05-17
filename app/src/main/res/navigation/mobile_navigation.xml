@@ -16,17 +16,16 @@
             app:destination="@id/favoritesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/usersFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/usersFragment" />
 
         <action
             android:id="@+id/action_usersFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
-            app:popUpTo="@id/usersFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/usersFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.task.codematch.ui.Fragments.favorites.FavoritesFragment"

@@ -6,13 +6,11 @@
     <item
         android:id="@+id/usersFragment"
         android:icon="@drawable/all_users"
-        android:title="@string/all_users"
-        app:showAsAction="never"  />
+        android:title="@string/all_users" />
 
     <item
         android:id="@+id/favoritesFragment"
         android:icon="@drawable/favorite"
-        android:title="@string/favorites"
-        app:showAsAction="never" />
+        android:title="@string/favorites" />
 
 </menu>

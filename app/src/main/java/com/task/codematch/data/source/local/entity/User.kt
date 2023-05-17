@@ -17,24 +17,25 @@ data class User(
 )
 
 data class Company(
-    val cname: String,
-    val catchPhrase: String,
-    val bs: String
+    val cname: String = "",
+    val catchPhrase: String = "",
+    val bs: String = ""
 )
 
 data class Address(
-    val street: String,
-    val suite: String,
-    val city: String,
-    val zipcode: String,
+    val street: String = "",
+    val suite: String = "",
+    val city: String = "",
+    val zipcode: String = "",
     @Embedded var geo: Geo
 )
 
 data class Geo(
-    val lat: Double,
-    val lng: Double
+    val lat: Double = 0.0,
+    val lng: Double = 0.0
 )
 
+/*
 data class AddressWithGeo(
     @Embedded val address: Address,
     @Embedded val geo: Geo
@@ -52,4 +53,4 @@ data class UserWithAddressGeoAndCompany(
         entityColumn = "id"
     )
     val company: Company
-)
+)*/
