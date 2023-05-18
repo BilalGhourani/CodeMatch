@@ -50,8 +50,8 @@ class UserDetailFragment : Fragment() {
                         binding.addressSuiteTextVal.text = data.data.address.suite
                         binding.addressCityTextVal.text = data.data.address.city
                         binding.addressZipcodeTextVal.text = data.data.address.zipcode
-                        binding.addressGeoTextVal.text =
-                            data.data.address.geo.lat.toString() + " - " + data.data.address.geo.lng
+                        val geoString = String.format("Latitude: %.6f, Longitude: %.6f", data.data.address.geo.lat, data.data.address.geo.lng)
+                        binding.addressGeoTextVal.text =geoString
 
                         binding.companyNameTextVal.text = data.data.company.cname
                         binding.companyCatchPhraseTextVal.text = data.data.company.catchPhrase

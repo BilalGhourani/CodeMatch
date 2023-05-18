@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.task.codematch.Adapters.UsersListAdapter
 import com.task.codematch.MainActivity
 import com.task.codematch.R
+import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentUsersBinding
 import com.task.codematch.utils.SnackBarUtils.showSnackBar
@@ -39,7 +40,7 @@ class UsersFragment : Fragment() {
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        userListAdapter = UsersListAdapter(emptyList())
+        userListAdapter = UsersListAdapter(mutableListOf<User>())
         binding.rvUsers.apply {
             adapter = userListAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -57,17 +58,17 @@ class UsersFragment : Fragment() {
                         if (data.data?.isEmpty() == true) {
                             binding.animNoUser.visibility = View.VISIBLE
                             binding.tvNoUsers.visibility = View.VISIBLE
-                            binding.rvUsers.adapter = UsersListAdapter(emptyList())
+                            binding.rvUsers.adapter = UsersListAdapter(mutableListOf<User>())
                         } else {
                             binding.animNoUser.visibility = View.INVISIBLE
                             binding.tvNoUsers.visibility = View.INVISIBLE
                             binding.rvUsers.visibility = View.VISIBLE
                             binding.rvUsers.layoutManager = LinearLayoutManager(context)
                             binding.rvUsers.adapter = data.data?.let {
-                                UsersListAdapter(it) { UserListItemBinding, item ->
+                                UsersListAdapter(it) { UserListItemBinding, item ,position->
                                     UserListItemBinding.ivFavorite.setOnClickListener {
                                         viewModel.toggleFavoriteValue(item)
-                                        binding.rvUsers.adapter?.notifyDataSetChanged()
+                                        binding.rvUsers.adapter?.notifyItemChanged(position)
                                         requireContext().showSnackBar(
                                             rootView = binding.root,
                                             message = "done.",

@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.task.codematch.Adapters.UsersListAdapter
 import com.task.codematch.MainActivity
 import com.task.codematch.R
+import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentFavoritesBinding
-import com.task.codematch.ui.Fragments.users.UsersViewModel
 import com.task.codematch.utils.SnackBarUtils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,7 +39,7 @@ class FavoritesFragment : Fragment() {
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        userListAdapter = UsersListAdapter(emptyList())
+        userListAdapter = UsersListAdapter(mutableListOf<User>())
         binding.rvUsers.apply {
             adapter = userListAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -58,39 +57,26 @@ class FavoritesFragment : Fragment() {
                         if (data.data?.isEmpty() == true) {
                             binding.animNoUser.visibility = View.VISIBLE
                             binding.tvNoUsers.visibility = View.VISIBLE
-                            binding.rvUsers.adapter = UsersListAdapter(emptyList())
+                            binding.rvUsers.adapter = UsersListAdapter(mutableListOf<User>())
                         } else {
                             binding.animNoUser.visibility = View.INVISIBLE
                             binding.tvNoUsers.visibility = View.INVISIBLE
                             binding.rvUsers.visibility = View.VISIBLE
                             binding.rvUsers.layoutManager = LinearLayoutManager(context)
                             binding.rvUsers.adapter = data.data?.let {
-                                UsersListAdapter(it) { UserListItemBinding, item ->
+                                UsersListAdapter(it) { UserListItemBinding, item,position ->
                                     UserListItemBinding.ivFavorite.setOnClickListener {
                                         viewModel.toggleFavoriteValue(item)
+                                        data.data.removeAt(position)
                                         binding.rvUsers.adapter?.notifyDataSetChanged()
-                                        requireContext().showSnackBar(
-                                            rootView = binding.root,
-                                            message = "done.",
-                                        )
+                                        if(data.data.isEmpty()){
+                                            binding.animNoUser.visibility = View.VISIBLE
+                                            binding.tvNoUsers.visibility = View.VISIBLE
+                                            binding.rvUsers.adapter = UsersListAdapter(mutableListOf<User>())
+                                        }
                                     }
                                 }
                             }
-                            if (MainActivity.isAnimatedRecyclerView) {
-                                val controller = AnimationUtils.loadLayoutAnimation(
-                                    context,
-                                    R.anim.layout_fall_down
-                                )
-                                binding.rvUsers.layoutAnimation = controller
-                                binding.rvUsers.scheduleLayoutAnimation()
-                                MainActivity.isAnimatedRecyclerView = false
-                            }
-//                            //for return animation
-//                            postponeEnterTransition()
-//                            view?.viewTreeObserver?.addOnPreDrawListener {
-//                                startPostponedEnterTransition()
-//                                true
-//                            }
                         }
                     }
                     is Resource.Failed -> {

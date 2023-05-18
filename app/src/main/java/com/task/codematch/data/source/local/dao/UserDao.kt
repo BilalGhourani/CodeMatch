@@ -9,11 +9,11 @@ interface UserDao {
 
     @Transaction
     @Query("SELECT * FROM User")
-    suspend fun getUsers(): List<User>
+    suspend fun getUsers(): MutableList<User>
 
     @Transaction
     @Query("SELECT * FROM User where isFavorite=1")
-    suspend fun getFavoriteUsers(): List<User>
+    suspend fun getFavoriteUsers(): MutableList<User>
 
     @Query("SELECT * FROM User WHERE id = :id")
     fun getFlowUserById(id: Long): Flow<User>

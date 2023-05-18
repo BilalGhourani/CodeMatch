@@ -23,10 +23,10 @@ class UsersRepositoryImpl @Inject constructor(
      * Fetched the users from network and stored it in database. At the end, data from persistence
      * storage is fetched and emitted.
      */
-    override suspend fun getAllUsers(): Flow<Resource<List<User>>> {
-        return object : NetworkBoundRepository<List<User>, List<User>>() {
+    override suspend fun getAllUsers(): Flow<Resource<MutableList<User>>> {
+        return object : NetworkBoundRepository<MutableList<User>, MutableList<User>>() {
 
-            override suspend fun saveRemoteData(response: List<UserModel>) {
+            override suspend fun saveRemoteData(response: MutableList<UserModel>) {
                 for (userMpdel in response) {
                     var user = usersDao.getUserById(userMpdel.id);
                     if (user != null) {
@@ -53,14 +53,14 @@ class UsersRepositoryImpl @Inject constructor(
                 }
             }
 
-            override suspend fun fetchFromLocal(): List<User> = usersDao.getUsers()
+            override suspend fun fetchFromLocal(): MutableList<User> = usersDao.getUsers()
 
-            override suspend fun fetchFromRemote(): List<UserModel> = userService.getAllUsers()
+            override suspend fun fetchFromRemote(): MutableList<UserModel> = userService.getAllUsers()
         }.asFlow()
     }
 
-    override suspend fun getAllFavoriteUsers(): Flow<Resource<List<User>>> {
-        var asFlow = flow<Resource<List<User>>> {
+    override suspend fun getAllFavoriteUsers(): Flow<Resource<MutableList<User>>> {
+        var asFlow = flow<Resource<MutableList<User>>> {
             var favoriteUsers = usersDao.getFavoriteUsers()
             emit(Resource.Success(favoriteUsers))
         }

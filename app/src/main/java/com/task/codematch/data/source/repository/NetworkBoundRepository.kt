@@ -41,7 +41,7 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     /**
      * Saves retrieved from remote into the persistence storage.
      */
-    protected abstract suspend fun saveRemoteData(response: List<UserModel>)
+    protected abstract suspend fun saveRemoteData(response: MutableList<UserModel>)
 
     /**
      * Retrieves all users from persistence storage.
@@ -51,5 +51,5 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     /**
      * Fetches [Response] from the remote end point.
      */
-    protected abstract suspend fun fetchFromRemote(): List<UserModel>
+    protected abstract suspend fun fetchFromRemote(): MutableList<UserModel>
 }

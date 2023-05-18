@@ -18,8 +18,8 @@ class FavoritesViewModel @Inject constructor(
     private val userRepository: UsersRepositoryImpl
 ) : ViewModel() {
 
-    private val _users = MutableLiveData<Resource<List<User>>?>()
-    val users: MutableLiveData<Resource<List<User>>?> = _users
+    private val _users = MutableLiveData<Resource<MutableList<User>>?>()
+    val users: MutableLiveData<Resource<MutableList<User>>?> = _users
 
 
     fun getFavoritesUsers() {

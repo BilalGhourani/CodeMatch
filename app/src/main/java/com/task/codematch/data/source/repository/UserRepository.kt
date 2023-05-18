@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
 
-    suspend fun getAllUsers(): Flow<Resource<List<User>>>
+    suspend fun getAllUsers(): Flow<Resource<MutableList<User>>>
 
-    suspend fun getAllFavoriteUsers(): Flow<Resource<List<User>>>
+    suspend fun getAllFavoriteUsers(): Flow<Resource<MutableList<User>>>
 
     suspend fun saveUser(user: User)
 

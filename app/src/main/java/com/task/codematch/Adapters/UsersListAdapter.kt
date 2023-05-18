@@ -14,8 +14,8 @@ import com.task.codematch.databinding.UserListItemBinding
 
 
 class UsersListAdapter(
-    private val users: List<User>,
-    private val onItemClickListener: (UserListItemBinding, User) -> Unit = { _: UserListItemBinding, _: User -> }
+    private val users: MutableList<User>,
+    private val onItemClickListener: (UserListItemBinding, User, Int) -> Unit = { _: UserListItemBinding, _: User, Int -> }
 ) :
     RecyclerView.Adapter<UsersListAdapter.UsersViewHolder>() {
 
@@ -23,31 +23,27 @@ class UsersListAdapter(
 
         val binding =
             UserListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return UsersViewHolder(binding)
+        return UsersViewHolder(binding, viewType)
     }
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
-        holder.bind(createOnClickListener(users[position]), users[position])
+        holder.bind(createOnClickListener(users[position]), users[position], position)
     }
 
     override fun getItemCount() = users.size
 
-    inner class UsersViewHolder(val binding: UserListItemBinding) :
+    inner class UsersViewHolder(val binding: UserListItemBinding, pos: Int) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(listener: View.OnClickListener, item: User) {
+        fun bind(listener: View.OnClickListener, item: User, pos: Int) {
             binding.userName.text = item.name
             binding.userEmail.text = item.email
-            if (item.isFavorite==1) {
+            if (item.isFavorite == 1) {
                 binding.ivFavorite.setImageResource(R.drawable.favorite)
             } else {
                 binding.ivFavorite.setImageResource(R.drawable.unfavorite)
             }
-
-            ViewCompat.setTransitionName(binding.userName, "name_${item.id}")
-            ViewCompat.setTransitionName(binding.userEmail, "email_${item.id}")
-
             binding.root.setOnClickListener(listener)
-            onItemClickListener(binding, item)
+            onItemClickListener(binding, item, pos)
         }
     }
 
