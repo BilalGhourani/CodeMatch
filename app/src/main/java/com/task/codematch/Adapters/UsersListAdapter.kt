@@ -1,10 +1,12 @@
 package com.task.codematch.Adapters
 
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
+import androidx.navigation.NavArgs
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +14,11 @@ import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.databinding.UserListItemBinding
 import com.task.codematch.ui.Fragments.users.UsersFragment
+import com.task.codematch.ui.Fragments.users.UsersFragmentDirections
 
 
 class UsersListAdapter(
-    private val tasks: List<User>,
+    private val users: List<User>,
     private val onItemClickListener: (UserListItemBinding, User) -> Unit = { _: UserListItemBinding, _: User -> }
 ) :
     RecyclerView.Adapter<UsersListAdapter.UsersViewHolder>() {
@@ -28,10 +31,10 @@ class UsersListAdapter(
     }
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
-        holder.bind(createOnClickListener(holder.binding, tasks[position]), tasks[position])
+        holder.bind(createOnClickListener(users[position]), users[position])
     }
 
-    override fun getItemCount() = tasks.size
+    override fun getItemCount() = users.size
 
     inner class UsersViewHolder(val binding: UserListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -44,8 +47,8 @@ class UsersListAdapter(
                 binding.ivFavorite.setImageResource(R.drawable.unfavorite)
             }
 
-//            ViewCompat.setTransitionName(binding.userName, "name_${item.id}")
-//            ViewCompat.setTransitionName(binding.userEmail, "email_${item.id}")
+            ViewCompat.setTransitionName(binding.userName, "name_${item.id}")
+            ViewCompat.setTransitionName(binding.userEmail, "email_${item.id}")
 
             binding.root.setOnClickListener(listener)
             onItemClickListener(binding, item)
@@ -53,17 +56,12 @@ class UsersListAdapter(
     }
 
     private fun createOnClickListener(
-        binding: UserListItemBinding,
         user: User
     ): View.OnClickListener {
         return View.OnClickListener {
-
-//            val directions =   actionAllTasksFragmentToAddTaskFragment(user)
-            val extras = FragmentNavigatorExtras(
-                binding.userName to "title_${user.name}",
-                binding.userEmail to "description_${user.email}"
-            )
-//            it.findNavController().navigate(directions, extras)
+            val bundle = Bundle()
+            bundle.putLong("user_id", user.id)
+            it.findNavController().navigate(R.id.action_usersFragment_to_userDetailFragment, bundle)
         }
     }
 }

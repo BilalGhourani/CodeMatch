@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.task.codematch.MainActivity
 import com.task.codematch.databinding.FragmentUserDetailsBinding
 
 class UserDetailFragment : Fragment() {
-
     private var _binding: FragmentUserDetailsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -32,11 +32,13 @@ class UserDetailFragment : Fragment() {
 //        userDetailViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = it
 //        }
+        (context as MainActivity).hideBottomNavigation()
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (context as MainActivity).showBottomNavigation()
         _binding = null
     }
 }

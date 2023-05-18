@@ -5,14 +5,14 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FF000000</color>
     <color name="background">@color/white</color>
     <color name="dark">#181c27</color>
     <color name="gray">#babecc</color>
     <color name="blue">#3369ff</color>
-    <color name="ambient_shadow">#FF3700B3</color>
-    <color name="spot_shadow">#FF6200EE</color>
+    <color name="ambient_shadow">#FF6200EE</color>
+    <color name="spot_shadow">#FFFFFFFF</color>
 
     <color name="primary">@color/dark</color>
     <color name="secondary">@color/blue</color>

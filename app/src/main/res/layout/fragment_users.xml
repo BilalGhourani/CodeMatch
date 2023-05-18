@@ -12,10 +12,6 @@
             android:id="@+id/rv_users"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
             tools:listitem="@layout/user_list_item" />
 
         <com.airbnb.lottie.LottieAnimationView
