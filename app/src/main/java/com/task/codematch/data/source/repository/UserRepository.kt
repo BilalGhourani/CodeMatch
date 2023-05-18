@@ -8,6 +8,8 @@ interface UserRepository {
 
     suspend fun getAllUsers(): Flow<Resource<List<User>>>
 
+    suspend fun getAllFavoriteUsers(): Flow<Resource<List<User>>>
+
     suspend fun saveUser(user: User)
 
     suspend fun getUserById(userId: Long): Flow<User>

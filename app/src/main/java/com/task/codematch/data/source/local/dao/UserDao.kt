@@ -11,8 +11,15 @@ interface UserDao {
     @Query("SELECT * FROM User")
     suspend fun getUsers(): List<User>
 
+    @Transaction
+    @Query("SELECT * FROM User where isFavorite=1")
+    suspend fun getFavoriteUsers(): List<User>
+
     @Query("SELECT * FROM User WHERE id = :id")
-    fun getUserById(id: Long): Flow<User>
+    fun getFlowUserById(id: Long): Flow<User>
+
+    @Query("SELECT * FROM User WHERE id = :id")
+    fun getUserById(id: Long): User
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -1,5 +1,6 @@
 package com.task.codematch.data.source.repository
 
+import com.task.codematch.data.model.UserModel
 import com.task.codematch.data.source.remote.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -40,15 +41,15 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     /**
      * Saves retrieved from remote into the persistence storage.
      */
-    protected abstract suspend fun saveRemoteData(response: REQUEST)
+    protected abstract suspend fun saveRemoteData(response: List<UserModel>)
 
     /**
-     * Retrieves all data from persistence storage.
+     * Retrieves all users from persistence storage.
      */
     protected abstract suspend fun fetchFromLocal(): RESULT
 
     /**
      * Fetches [Response] from the remote end point.
      */
-    protected abstract suspend fun fetchFromRemote(): REQUEST
+    protected abstract suspend fun fetchFromRemote(): List<UserModel>
 }

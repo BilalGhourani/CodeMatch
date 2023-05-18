@@ -1,10 +1,11 @@
 package com.task.codematch.data.source.local.entity
 
 import androidx.room.*
+import com.google.gson.annotations.SerializedName
 
 
 @Entity(tableName = "User")
-data class User(
+data class User constructor(
     @PrimaryKey
     var id: Long = 0,
     var name: String = "",
@@ -14,9 +15,11 @@ data class User(
     var website: String = "",
     @Embedded var address: Address,
     @Embedded var company: Company,
+    var isFavorite: Int = 0
 )
 
 data class Company(
+    @SerializedName("name")
     val cname: String = "",
     val catchPhrase: String = "",
     val bs: String = ""
@@ -35,22 +38,3 @@ data class Geo(
     val lng: Double = 0.0
 )
 
-/*
-data class AddressWithGeo(
-    @Embedded val address: Address,
-    @Embedded val geo: Geo
-)
-
-data class UserWithAddressGeoAndCompany(
-    @Embedded val user: User,
-    @Relation(
-        parentColumn = "addressId",
-        entityColumn = "id"
-    )
-    val addressWithGeo: AddressWithGeo,
-    @Relation(
-        parentColumn = "companyId",
-        entityColumn = "id"
-    )
-    val company: Company
-)*/

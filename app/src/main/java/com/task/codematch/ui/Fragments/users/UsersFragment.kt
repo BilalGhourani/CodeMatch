@@ -66,7 +66,8 @@ class UsersFragment : Fragment() {
                             binding.rvUsers.adapter = data.data?.let {
                                 UsersListAdapter(it) { UserListItemBinding, item ->
                                     UserListItemBinding.ivFavorite.setOnClickListener {
-                                        viewModel.markUserAsFavorite(item)
+                                        viewModel.toggleFavoriteValue(item)
+                                        binding.rvUsers.adapter?.notifyDataSetChanged()
                                         requireContext().showSnackBar(
                                             rootView = binding.root,
                                             message = "done.",
@@ -83,12 +84,12 @@ class UsersFragment : Fragment() {
                                 binding.rvUsers.scheduleLayoutAnimation()
                                 MainActivity.isAnimatedRecyclerView = false
                             }
-                            //for return animation
-                            postponeEnterTransition()
-                            view?.viewTreeObserver?.addOnPreDrawListener {
-                                startPostponedEnterTransition()
-                                true
-                            }
+//                            //for return animation
+//                            postponeEnterTransition()
+//                            view?.viewTreeObserver?.addOnPreDrawListener {
+//                                startPostponedEnterTransition()
+//                                true
+//                            }
                         }
                     }
                     is Resource.Failed -> {
@@ -101,6 +102,7 @@ class UsersFragment : Fragment() {
                     else -> {}
                 }
             }
+
         }
         return root
     }

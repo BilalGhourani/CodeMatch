@@ -4,12 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.task.codematch.Adapters.UsersListAdapter
+import com.task.codematch.MainActivity
+import com.task.codematch.R
+import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentFavoritesBinding
+import com.task.codematch.ui.Fragments.users.UsersViewModel
+import com.task.codematch.utils.SnackBarUtils.showSnackBar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
 
+    private val viewModel by viewModels<FavoritesViewModel>()
+    private lateinit var userListAdapter: UsersListAdapter
     private var _binding: FragmentFavoritesBinding? = null
 
     // This property is only valid between onCreateView and
@@ -21,17 +36,85 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(FavoritesViewModel::class.java)
 
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val textView: TextView = binding.textNotifications
-//        notificationsViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
+        userListAdapter = UsersListAdapter(emptyList())
+        binding.rvUsers.apply {
+            adapter = userListAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+
+        viewModel.getFavoritesUsers();
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewModel.users.observe(viewLifecycleOwner) { data ->
+                when (data) {
+                    is Resource.Loading -> showProgressBar()
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        if (data.data?.isEmpty() == true) {
+                            binding.animNoUser.visibility = View.VISIBLE
+                            binding.tvNoUsers.visibility = View.VISIBLE
+                            binding.rvUsers.adapter = UsersListAdapter(emptyList())
+                        } else {
+                            binding.animNoUser.visibility = View.INVISIBLE
+                            binding.tvNoUsers.visibility = View.INVISIBLE
+                            binding.rvUsers.visibility = View.VISIBLE
+                            binding.rvUsers.layoutManager = LinearLayoutManager(context)
+                            binding.rvUsers.adapter = data.data?.let {
+                                UsersListAdapter(it) { UserListItemBinding, item ->
+                                    UserListItemBinding.ivFavorite.setOnClickListener {
+                                        viewModel.toggleFavoriteValue(item)
+                                        binding.rvUsers.adapter?.notifyDataSetChanged()
+                                        requireContext().showSnackBar(
+                                            rootView = binding.root,
+                                            message = "done.",
+                                        )
+                                    }
+                                }
+                            }
+                            if (MainActivity.isAnimatedRecyclerView) {
+                                val controller = AnimationUtils.loadLayoutAnimation(
+                                    context,
+                                    R.anim.layout_fall_down
+                                )
+                                binding.rvUsers.layoutAnimation = controller
+                                binding.rvUsers.scheduleLayoutAnimation()
+                                MainActivity.isAnimatedRecyclerView = false
+                            }
+//                            //for return animation
+//                            postponeEnterTransition()
+//                            view?.viewTreeObserver?.addOnPreDrawListener {
+//                                startPostponedEnterTransition()
+//                                true
+//                            }
+                        }
+                    }
+                    is Resource.Failed -> {
+                        hideProgressBar()
+                        requireContext().showSnackBar(
+                            rootView = binding.root,
+                            message = data.message
+                        )
+                    }
+                    else -> {}
+                }
+            }
+
+        }
+
         return root
+    }
+
+    private fun hideProgressBar() {
+        binding.progressbar.visibility = View.GONE
+    }
+
+    private fun showProgressBar() {
+        binding.progressbar.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

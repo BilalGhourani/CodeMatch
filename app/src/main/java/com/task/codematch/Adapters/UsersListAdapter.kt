@@ -6,15 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
-import androidx.navigation.NavArgs
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.databinding.UserListItemBinding
-import com.task.codematch.ui.Fragments.users.UsersFragment
-import com.task.codematch.ui.Fragments.users.UsersFragmentDirections
 
 
 class UsersListAdapter(
@@ -41,7 +37,7 @@ class UsersListAdapter(
         fun bind(listener: View.OnClickListener, item: User) {
             binding.userName.text = item.name
             binding.userEmail.text = item.email
-            if (item.id.toInt() == 1) {
+            if (item.isFavorite==1) {
                 binding.ivFavorite.setImageResource(R.drawable.favorite)
             } else {
                 binding.ivFavorite.setImageResource(R.drawable.unfavorite)

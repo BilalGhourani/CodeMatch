@@ -23,15 +23,24 @@ class UsersViewModel @Inject constructor(
 
 
     fun getAllUsers() {
-        viewModelScope.launch (Dispatchers.Main){
+        viewModelScope.launch(Dispatchers.IO) {
             userRepository.getAllUsers()
                 .map { resource -> Resource.Success(resource) }
-                .collect { result -> _users.value = result.data }
+                .collect { result ->
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _users.value = result.data
+                    }
+                }
         }
     }
 
-    fun markUserAsFavorite(user: User) {
-        viewModelScope.launch {
+    fun toggleFavoriteValue(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (user.isFavorite == 0) {
+                user.isFavorite = 1
+            } else {
+                user.isFavorite = 0
+            }
             userRepository.saveUser(user)
         }
     }
