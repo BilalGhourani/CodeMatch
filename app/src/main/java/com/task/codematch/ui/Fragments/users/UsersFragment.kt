@@ -10,12 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.task.codematch.Adapters.UsersListAdapter
 import com.task.codematch.MainActivity
 import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentUsersBinding
+import com.task.codematch.utils.LastItemMarginDecoration
 import com.task.codematch.utils.SnackBarUtils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -49,6 +51,7 @@ class UsersFragment : Fragment() {
             adapter = userListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+        binding.rvUsers.addItemDecoration(LastItemMarginDecoration(resources.getDimensionPixelSize(R.dimen.cell_bottom_margin)))
 
         viewModel.getAllUsers();
 

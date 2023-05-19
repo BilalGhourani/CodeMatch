@@ -39,7 +39,7 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     }
 
     /**
-     * Saves retrieved from remote into the persistence storage.
+     * Saves retrieved users from remote into the persistence storage.
      */
     protected abstract suspend fun saveRemoteData(response: MutableList<UserModel>)
 

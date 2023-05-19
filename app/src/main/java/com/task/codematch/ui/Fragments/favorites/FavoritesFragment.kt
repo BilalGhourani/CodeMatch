@@ -16,6 +16,7 @@ import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentFavoritesBinding
+import com.task.codematch.utils.LastItemMarginDecoration
 import com.task.codematch.utils.SnackBarUtils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +47,7 @@ class FavoritesFragment : Fragment() {
             adapter = userListAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+        binding.rvUsers.addItemDecoration(LastItemMarginDecoration(resources.getDimensionPixelSize(R.dimen.cell_bottom_margin)))
 
         viewModel.getFavoritesUsers();
 
@@ -86,7 +88,7 @@ class FavoritesFragment : Fragment() {
                                         it.startAnimation(animation)
                                         CoroutineScope(Dispatchers.Main).launch {
                                             delay(500)
-                                            if (position < data.data.size && binding!=null) {
+                                            if (position < data.data.size && binding != null) {
                                                 data.data.removeAt(position)
                                                 binding?.rvUsers?.adapter?.notifyDataSetChanged()
                                                 it.isEnabled = true

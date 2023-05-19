@@ -3,4 +3,6 @@
     <string name="all_users">All Users</string>
     <string name="favorites">Favorites</string>
     <string name="user_details">User Details</string>
+    <string name="no_users">No Users Found</string>
+    <string name="no_fav_users">No Favorite Users Found</string>
 </resources>
