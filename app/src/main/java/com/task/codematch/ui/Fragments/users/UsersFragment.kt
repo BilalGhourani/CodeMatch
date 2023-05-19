@@ -69,15 +69,22 @@ class UsersFragment : Fragment() {
                             binding.rvUsers.visibility = View.VISIBLE
                             binding.rvUsers.layoutManager = LinearLayoutManager(context)
                             binding.rvUsers.adapter = data.data?.let {
-                                UsersListAdapter(it) { UserListItemBinding, item ,position->
+                                UsersListAdapter(it) { UserListItemBinding, item, position ->
                                     UserListItemBinding.root.setOnClickListener {
                                         val bundle = Bundle()
                                         bundle.putLong("user_id", item.id)
-                                        it.findNavController().navigate(R.id.action_usersFragment_to_userDetailFragment, bundle)
+                                        bundle.putParcelable("user", item)
+                                        it.findNavController().navigate(
+                                            R.id.action_usersFragment_to_userDetailFragment,
+                                            bundle
+                                        )
                                     }
                                     UserListItemBinding.ivFavorite.setOnClickListener {
                                         viewModel.toggleFavoriteValue(item)
-                                        val animation = AnimationUtils.loadAnimation(context, R.anim.click_animation)
+                                        val animation = AnimationUtils.loadAnimation(
+                                            context,
+                                            R.anim.click_animation
+                                        )
                                         it.startAnimation(animation)
                                         CoroutineScope(Dispatchers.Main).launch {
                                             delay(400)

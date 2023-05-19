@@ -30,8 +30,6 @@ class FavoritesFragment : Fragment() {
     private lateinit var userListAdapter: UsersListAdapter
     private var _binding: FragmentFavoritesBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -68,24 +66,36 @@ class FavoritesFragment : Fragment() {
                             binding.rvUsers.visibility = View.VISIBLE
                             binding.rvUsers.layoutManager = LinearLayoutManager(context)
                             binding.rvUsers.adapter = data.data?.let {
-                                UsersListAdapter(it) { UserListItemBinding, item,position ->
+                                UsersListAdapter(it) { UserListItemBinding, item, position ->
                                     UserListItemBinding.root.setOnClickListener {
                                         val bundle = Bundle()
                                         bundle.putLong("user_id", item.id)
-                                        it.findNavController().navigate(R.id.action_favoritesFragment_to_userDetailFragment, bundle)
+                                        bundle.putParcelable("user", item)
+                                        it.findNavController().navigate(
+                                            R.id.action_favoritesFragment_to_userDetailFragment,
+                                            bundle
+                                        )
                                     }
                                     UserListItemBinding.ivFavorite.setOnClickListener {
-                                        viewModel.toggleFavoriteValue(item)
-                                        val animation = AnimationUtils.loadAnimation(context, R.anim.click_animation)
+                                        viewModel.unFavoriteValue(item)
+                                        it.isEnabled = false
+                                        val animation = AnimationUtils.loadAnimation(
+                                            context,
+                                            R.anim.click_animation
+                                        )
                                         it.startAnimation(animation)
                                         CoroutineScope(Dispatchers.Main).launch {
                                             delay(500)
-                                            data.data.removeAt(position)
-                                            binding.rvUsers.adapter?.notifyDataSetChanged()
-                                            if(data.data.isEmpty()){
-                                                binding.animNoUser.visibility = View.VISIBLE
-                                                binding.tvNoUsers.visibility = View.VISIBLE
-                                                binding.rvUsers.adapter = UsersListAdapter(mutableListOf<User>())
+                                            if (position < data.data.size && binding!=null) {
+                                                data.data.removeAt(position)
+                                                binding?.rvUsers?.adapter?.notifyDataSetChanged()
+                                                it.isEnabled = true
+                                                if (data.data.isEmpty()) {
+                                                    binding?.animNoUser?.visibility = View.VISIBLE
+                                                    binding?.tvNoUsers?.visibility = View.VISIBLE
+                                                    binding?.rvUsers?.adapter =
+                                                        UsersListAdapter(mutableListOf<User>())
+                                                }
                                             }
                                         }
                                     }

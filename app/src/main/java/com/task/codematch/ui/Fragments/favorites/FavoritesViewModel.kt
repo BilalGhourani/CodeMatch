@@ -34,13 +34,9 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-    fun toggleFavoriteValue(user: User) {
+    fun unFavoriteValue(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (user.isFavorite == 0) {
-                user.isFavorite = 1
-            } else {
-                user.isFavorite = 0
-            }
+            user.isFavorite = 0
             userRepository.saveUser(user)
         }
     }

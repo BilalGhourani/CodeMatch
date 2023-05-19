@@ -59,6 +59,14 @@ class UsersRepositoryImpl @Inject constructor(
         }.asFlow()
     }
 
+    override suspend fun getAllLocalUsers(): Flow<Resource<MutableList<User>>> {
+        var asFlow = flow<Resource<MutableList<User>>> {
+            var favoriteUsers = usersDao.getUsers()
+            emit(Resource.Success(favoriteUsers))
+        }
+        return asFlow
+    }
+
     override suspend fun getAllFavoriteUsers(): Flow<Resource<MutableList<User>>> {
         var asFlow = flow<Resource<MutableList<User>>> {
             var favoriteUsers = usersDao.getFavoriteUsers()

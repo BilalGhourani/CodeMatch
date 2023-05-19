@@ -8,6 +8,7 @@ interface UserRepository {
 
     suspend fun getAllUsers(): Flow<Resource<MutableList<User>>>
 
+    suspend fun getAllLocalUsers(): Flow<Resource<MutableList<User>>>
     suspend fun getAllFavoriteUsers(): Flow<Resource<MutableList<User>>>
 
     suspend fun saveUser(user: User)
