@@ -28,7 +28,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background">
+            android:background="@color/cell_background">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/name_container"
@@ -182,11 +182,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:outlineAmbientShadowColor="@color/ambient_shadow"
-                    android:outlineSpotShadowColor="@color/spot_shadow"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="4dp"
-                    android:background="@color/background"
                     app:layout_constraintTop_toBottomOf="@+id/website_container"
                     tools:ignore="MissingConstraints"
                     tools:targetApi="p">
@@ -347,11 +344,8 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:outlineAmbientShadowColor="@color/ambient_shadow"
-                    android:outlineSpotShadowColor="@color/spot_shadow"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="4dp"
-                    android:background="@color/background"
                     app:layout_constraintTop_toBottomOf="@+id/address_card_view"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:ignore="MissingConstraints"

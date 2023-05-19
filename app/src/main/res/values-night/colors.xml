@@ -17,5 +17,6 @@
     <color name="primary">@color/dark</color>
     <color name="secondary">@color/blue</color>
 
+    <color name="cell_background">#13141F</color>
     <color name="snack_bar">@color/dark</color>
 </resources>
