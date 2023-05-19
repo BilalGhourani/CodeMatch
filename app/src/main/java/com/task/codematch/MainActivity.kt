@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,6 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     companion object {
         var isAnimatedRecyclerView: Boolean = true
@@ -32,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.usersFragment, R.id.favoritesFragment
@@ -40,6 +42,27 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        binding.navView.setOnItemSelectedListener() { menuItem ->
+            val currentFragment = navController.currentDestination?.id
+
+            if (currentFragment == R.id.userDetailFragment) {
+                onBackPressed()
+            }
+            when (menuItem.itemId) {
+                R.id.usersFragment -> {
+                    // Handle click on item 1
+                    navController.navigate(R.id.usersFragment)
+                    true
+                }
+                R.id.favoritesFragment -> {
+                    // Handle click on item 2
+                    navController.navigate(R.id.favoritesFragment)
+                    true
+                }
+                // Add cases for other menu items
+                else -> false
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -60,4 +83,16 @@ class MainActivity : AppCompatActivity() {
     fun showBottomNavigation() {
         binding.navView.visibility = View.VISIBLE
     }
+
+    /* override fun onBackPressed() {
+         val currentFragment = navController.currentDestination?.id
+
+         // Check if the current fragment is Fragment C
+         if (currentFragment == R.id.favoritesFragment) {
+             // Navigate back to Fragment A instead of going back to Fragment C
+             navController.navigate(R.id.usersFragment)
+         } else {
+             super.onBackPressed()
+         }
+     }*/
 }

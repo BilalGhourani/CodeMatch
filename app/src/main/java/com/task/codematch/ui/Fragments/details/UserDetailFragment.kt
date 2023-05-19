@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.task.codematch.MainActivity
+import com.task.codematch.R
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentUserDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,12 +51,17 @@ class UserDetailFragment : Fragment() {
                         binding.addressSuiteTextVal.text = data.data.address.suite
                         binding.addressCityTextVal.text = data.data.address.city
                         binding.addressZipcodeTextVal.text = data.data.address.zipcode
-                        val geoString = String.format("Latitude: %.6f, Longitude: %.6f", data.data.address.geo.lat, data.data.address.geo.lng)
+                        val geoString = String.format("Lat: %.6f, Lng: %.6f", data.data.address.geo.lat, data.data.address.geo.lng)
                         binding.addressGeoTextVal.text =geoString
 
                         binding.companyNameTextVal.text = data.data.company.cname
                         binding.companyCatchPhraseTextVal.text = data.data.company.catchPhrase
                         binding.companyBsTextVal.text = data.data.company.bs
+                        if (data.data.isFavorite == 1) {
+                            binding.ivFavorite.setImageResource(R.drawable.favorite)
+                        } else {
+                            binding.ivFavorite.setImageResource(R.drawable.unfavorite)
+                        }
 
                         postponeEnterTransition()
                         view?.viewTreeObserver?.addOnPreDrawListener {

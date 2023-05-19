@@ -12,22 +12,13 @@
         android:label="@string/all_users"
         tools:layout="@layout/fragment_users">
         <action
-            android:id="@+id/action_usersFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/usersFragment"/>
-
-        <action
             android:id="@+id/action_usersFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment"
+            app:restoreState="true"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/usersFragment" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -41,9 +32,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/favoritesFragment"
-            app:popUpToInclusive="true" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment

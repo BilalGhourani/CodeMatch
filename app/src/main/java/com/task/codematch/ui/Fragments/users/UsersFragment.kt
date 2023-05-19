@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.task.codematch.Adapters.UsersListAdapter
 import com.task.codematch.MainActivity
@@ -17,6 +18,9 @@ import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentUsersBinding
 import com.task.codematch.utils.SnackBarUtils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -66,13 +70,23 @@ class UsersFragment : Fragment() {
                             binding.rvUsers.layoutManager = LinearLayoutManager(context)
                             binding.rvUsers.adapter = data.data?.let {
                                 UsersListAdapter(it) { UserListItemBinding, item ,position->
+                                    UserListItemBinding.root.setOnClickListener {
+                                        val bundle = Bundle()
+                                        bundle.putLong("user_id", item.id)
+                                        it.findNavController().navigate(R.id.action_usersFragment_to_userDetailFragment, bundle)
+                                    }
                                     UserListItemBinding.ivFavorite.setOnClickListener {
                                         viewModel.toggleFavoriteValue(item)
-                                        binding.rvUsers.adapter?.notifyItemChanged(position)
-                                        requireContext().showSnackBar(
-                                            rootView = binding.root,
-                                            message = "done.",
-                                        )
+                                        val animation = AnimationUtils.loadAnimation(context, R.anim.click_animation)
+                                        it.startAnimation(animation)
+                                        CoroutineScope(Dispatchers.Main).launch {
+                                            delay(400)
+                                            binding.rvUsers.adapter?.notifyItemChanged(position)
+                                        }
+//                                        requireContext().showSnackBar(
+//                                            rootView = binding.root,
+//                                            message = "done.",
+//                                        )
                                     }
                                 }
                             }

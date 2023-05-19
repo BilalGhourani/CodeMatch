@@ -20,21 +20,20 @@ class UsersListAdapter(
     RecyclerView.Adapter<UsersListAdapter.UsersViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
-
         val binding =
             UserListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return UsersViewHolder(binding, viewType)
     }
 
     override fun onBindViewHolder(holder: UsersViewHolder, position: Int) {
-        holder.bind(createOnClickListener(users[position]), users[position], position)
+        holder.bind(users[position], position)
     }
 
     override fun getItemCount() = users.size
 
     inner class UsersViewHolder(val binding: UserListItemBinding, pos: Int) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(listener: View.OnClickListener, item: User, pos: Int) {
+        fun bind(item: User, pos: Int) {
             binding.userName.text = item.name
             binding.userEmail.text = item.email
             if (item.isFavorite == 1) {
@@ -42,18 +41,7 @@ class UsersListAdapter(
             } else {
                 binding.ivFavorite.setImageResource(R.drawable.unfavorite)
             }
-            binding.root.setOnClickListener(listener)
             onItemClickListener(binding, item, pos)
-        }
-    }
-
-    private fun createOnClickListener(
-        user: User
-    ): View.OnClickListener {
-        return View.OnClickListener {
-            val bundle = Bundle()
-            bundle.putLong("user_id", user.id)
-            it.findNavController().navigate(R.id.action_usersFragment_to_userDetailFragment, bundle)
         }
     }
 }
