@@ -1,14 +1,10 @@
 A simple android app that showcases clean architecture in android with some handful libraries
 
-MVVM as a design pattern
-
-Dagger hilt for dependency injection
-
-Retrofit to fetch JSON response from newsapi.org
-
-Room persistence library for caching
-
-coroutines for live connection checking
+- MVVM as a design pattern
+- Dagger hilt for dependency injection
+- Retrofit to fetch JSON response from newsapi.org
+- Room persistence library for caching
+- coroutines for live connection checking
 
 ## Building the App
 
