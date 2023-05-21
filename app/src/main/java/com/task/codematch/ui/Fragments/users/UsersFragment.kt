@@ -10,9 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.task.codematch.Adapters.UsersListAdapter
-import com.task.codematch.MainActivity
+import com.task.codematch.ui.MainActivity
 import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
@@ -93,10 +92,6 @@ class UsersFragment : Fragment() {
                                             delay(400)
                                             binding.rvUsers.adapter?.notifyItemChanged(position)
                                         }
-//                                        requireContext().showSnackBar(
-//                                            rootView = binding.root,
-//                                            message = "done.",
-//                                        )
                                     }
                                 }
                             }
@@ -109,12 +104,6 @@ class UsersFragment : Fragment() {
                                 binding.rvUsers.scheduleLayoutAnimation()
                                 MainActivity.isAnimatedRecyclerView = false
                             }
-//                            //for return animation
-//                            postponeEnterTransition()
-//                            view?.viewTreeObserver?.addOnPreDrawListener {
-//                                startPostponedEnterTransition()
-//                                true
-//                            }
                         }
                     }
                     is Resource.Failed -> {

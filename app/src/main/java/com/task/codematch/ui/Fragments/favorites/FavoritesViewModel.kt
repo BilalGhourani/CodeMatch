@@ -1,6 +1,5 @@
 package com.task.codematch.ui.Fragments.favorites
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,7 @@ class FavoritesViewModel @Inject constructor(
     private val userRepository: UsersRepositoryImpl
 ) : ViewModel() {
 
-    private val _users = MutableLiveData<Resource<MutableList<User>>?>()
+    val _users = MutableLiveData<Resource<MutableList<User>>?>()
     val users: MutableLiveData<Resource<MutableList<User>>?> = _users
 
 
@@ -39,5 +38,9 @@ class FavoritesViewModel @Inject constructor(
             user.isFavorite = 0
             userRepository.saveUser(user)
         }
+    }
+
+    fun clear() {
+        this.onCleared()
     }
 }

@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.task.codematch.Adapters.UsersListAdapter
-import com.task.codematch.MainActivity
 import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource

@@ -1,6 +1,5 @@
 package com.task.codematch.ui.Fragments.users
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +19,6 @@ class UsersViewModel @Inject constructor(
 
     private val _users = MutableLiveData<Resource<MutableList<User>>?>()
     val users: MutableLiveData<Resource<MutableList<User>>?> = _users
-
 
     fun getAllUsers() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,5 +41,9 @@ class UsersViewModel @Inject constructor(
             }
             userRepository.saveUser(user)
         }
+    }
+
+    fun clear() {
+        this.onCleared()
     }
 }

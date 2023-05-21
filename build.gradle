@@ -13,6 +13,7 @@ buildscript {
         // hilt-android-gradle-plugin
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.42"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3"
+        classpath "org.mockito:mockito-core:2.25.0"
     }
 }
 

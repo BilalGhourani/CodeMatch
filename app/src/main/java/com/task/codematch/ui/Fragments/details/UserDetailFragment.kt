@@ -7,22 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.task.codematch.MainActivity
+import com.task.codematch.ui.MainActivity
 import com.task.codematch.R
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
 import com.task.codematch.databinding.FragmentUserDetailsBinding
-import com.task.codematch.ui.Fragments.favorites.FavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserDetailFragment : Fragment() {
@@ -75,6 +71,7 @@ class UserDetailFragment : Fragment() {
                 when (data) {
                     is Resource.Success -> {
                         _user = data.data
+                        binding.parentCardview.visibility = View.VISIBLE
                         binding.nameTextVal.text = data.data.name
                         binding.usernameTextVal.text = data.data.username
                         binding.emailTextVal.text = data.data.email
@@ -101,8 +98,9 @@ class UserDetailFragment : Fragment() {
                             binding.ivFavorite.setImageResource(R.drawable.unfavorite)
                         }
 
+                    }else -> {
+                        binding.parentCardview.visibility = View.GONE
                     }
-                    else -> {}
                 }
             }
         }

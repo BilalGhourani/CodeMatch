@@ -17,22 +17,22 @@ class UserDetailViewModel @Inject constructor(
     private val userRepository: UsersRepositoryImpl
 ) : ViewModel() {
 
-    public val _state = MutableLiveData<Resource<User>?>()
+    val _state = MutableLiveData<Resource<User>?>()
     val _uiState: MutableLiveData<Resource<User>?> = _state
 
-    fun notifyModel(user: User){
-        viewModelScope.launch {
-            _uiState.value = Resource.Success(user)
-        }
+    fun notifyModel(user: User) {
+        _uiState.value = Resource.Success(user)
     }
 
     fun getUserDetail(userId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             userRepository.getUserById(userId).distinctUntilChanged().collect { result ->
-                if (result == null) {
-                    _uiState.value = Resource.Failed("")
-                } else {
-                    _uiState.value = Resource.Success(result)
+                viewModelScope.launch(Dispatchers.Main) {
+                    if (result == null) {
+                        _uiState.value = Resource.Failed("")
+                    } else {
+                        _uiState.value = Resource.Success(result)
+                    }
                 }
             }
         }
@@ -47,5 +47,9 @@ class UserDetailViewModel @Inject constructor(
             }
             userRepository.saveUser(user)
         }
+    }
+
+    fun clear() {
+        this.onCleared()
     }
 }
