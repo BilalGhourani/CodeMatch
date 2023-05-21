@@ -9,6 +9,15 @@ plugins {
     id 'dagger.hilt.android.plugin'
 }
 
+tasks.withType(Test) {
+    useJUnitPlatform()
+    scanForTestClasses = false
+    include "**/*Test.class" // whatever Ant pattern matches your test class files
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
 android {
     compileSdk 32
 
@@ -41,6 +50,7 @@ android {
     dataBinding {
         enabled = true
     }
+
 }
 
 dependencies {
@@ -61,7 +71,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //room-testing
-    androidTestImplementation("androidx.room:room-testing:2.4.3")
+    androidTestImplementation("androidx.room:room-testing:2.4.2")
 
     //Library for making assertions in Test Cases
     androidTestImplementation "com.google.truth:truth:1.1.3"
@@ -104,6 +114,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
 
-    def lottieVersion = "3.4.0"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
+    //lottie animation
+    implementation "com.airbnb.android:lottie:3.4.0"
 }

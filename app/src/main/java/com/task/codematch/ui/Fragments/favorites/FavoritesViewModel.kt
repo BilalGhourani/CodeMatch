@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.remote.Resource
-import com.task.codematch.data.source.repository.UsersRepositoryImpl
+import com.task.codematch.data.source.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val userRepository: UsersRepositoryImpl
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val _users = MutableLiveData<Resource<MutableList<User>>?>()

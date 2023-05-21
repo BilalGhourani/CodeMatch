@@ -5,7 +5,10 @@ import androidx.room.Room
 import com.google.gson.Gson
 import com.task.codematch.BuildConfig
 import com.task.codematch.data.source.local.AppDatabase
+import com.task.codematch.data.source.local.dao.UserDao
 import com.task.codematch.data.source.remote.UserService
+import com.task.codematch.data.source.repository.UserRepository
+import com.task.codematch.data.source.repository.UsersRepositoryImpl
 import com.task.codematch.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -36,6 +39,12 @@ object AppModule {
     @Singleton
     @Provides
     fun provideUserDao(database: AppDatabase) = database.UserDao()
+
+    @Singleton
+    @Provides
+    fun provideTaskRepository(dao: UserDao, userService: UserService): UserRepository {
+        return UsersRepositoryImpl(dao, userService)
+    }
 
     @Provides
     @Singleton

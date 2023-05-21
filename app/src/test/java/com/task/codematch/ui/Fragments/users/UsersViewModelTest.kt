@@ -21,7 +21,6 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 internal class UsersViewModelTest {
 
-    @get:Rule
     private lateinit var usersViewModel: UsersViewModel
     private val fakeUsersRepositoryImpl = UsersRepositoryImplTest()
 

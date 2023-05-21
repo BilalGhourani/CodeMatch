@@ -19,7 +19,6 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 internal class FavoritesViewModelTest {
 
-    @get:Rule
     private lateinit var favoritesViewModel: FavoritesViewModel
     private val fakeUsersRepositoryImpl = UsersRepositoryImplTest()
 

@@ -3,7 +3,6 @@ package com.task.codematch.ui.Fragments.details
 import com.google.common.truth.Truth
 import com.task.codematch.data.source.local.entity.User
 import com.task.codematch.data.source.repository.UsersRepositoryImplTest
-import com.task.codematch.ui.Fragments.favorites.FavoritesViewModel
 import getOrAwaitValueTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -16,7 +15,6 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 internal class UserDetailViewModelTest {
 
-    @get:Rule
     private lateinit var userDetailViewModel: UserDetailViewModel
     private val fakeUsersRepositoryImpl = UsersRepositoryImplTest()
 
@@ -31,12 +29,7 @@ internal class UserDetailViewModelTest {
     }
 
     @Test
-    fun notifyModel_notifyUI(user: User) = runTest(UnconfinedTestDispatcher()) {
-
-    }
-
-    @Test
-    fun getUserDetail_fromdb(userId: Long) =
+    fun getUserDetail(userId: Long) =
         runTest(UnconfinedTestDispatcher()) {
             userDetailViewModel.getUserDetail(userId)
             val user = userDetailViewModel._uiState.getOrAwaitValueTest()
