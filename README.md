@@ -13,7 +13,7 @@ Follow the steps below to build the app:
    ./gradlew assembleDebug
 
 
-5. The APK file will be generated in the `app/build/outputs/apk/debug/` directory.
+5. The APK file will be generated in the `app/debugApk` directory.
 
 
 ## Running the App
